@@ -1,0 +1,795 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Iron — Montage vidéo YouTube long format et Instagram format court.">
+  <meta name="theme-color" content="#17130d">
+  <title>Iron — Video Editor </title>
+  
+  
+
+  <style>
+    :root{
+      --bg:#fbfaf6;--surface:#fff;--surface-2:#f4f1e9;--ink:#171512;--muted:#777168;
+      --line:#e7e1d5;--accent:#ffae00;--accent-2:#ff7a00;--dark:#16120b;
+      --shadow:0 25px 70px rgba(43,31,8,.12);--radius:24px;--pill:999px;--max:1180px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;scroll-padding-top:90px}
+    body{
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--ink);background:var(--bg);line-height:1.55;overflow-x:hidden
+    }
+    body.modal-open{overflow:hidden}
+    a{color:inherit;text-decoration:none}
+    button,input,textarea{font:inherit}
+    button{cursor:pointer}
+    img{max-width:100%;display:block}
+    :focus-visible{outline:3px solid rgba(255,122,0,.45);outline-offset:3px}
+
+    .container{width:min(calc(100% - 36px),var(--max));margin:auto}
+    .section{padding:105px 0;position:relative}
+    .section::before{
+      content:"";position:absolute;inset:0;pointer-events:none;
+      background-image:radial-gradient(rgba(255,174,0,.11) 1px,transparent 1px);
+      background-size:28px 28px;
+      mask-image:linear-gradient(to bottom,transparent,black 20%,black 80%,transparent)
+    }
+    .section>.container{position:relative;z-index:1}
+
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+    .reveal.visible{opacity:1;transform:none}
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;padding:7px 12px;
+      border:1px solid rgba(255,174,0,.35);background:#fff8e7;border-radius:var(--pill);
+      font-size:.72rem;font-weight:850;text-transform:uppercase;letter-spacing:.08em;color:#9b5e00
+    }
+    .eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 15px var(--accent)}
+    .heading{max-width:720px;margin-bottom:46px}
+    .heading h2{
+      font-size:clamp(2.2rem,5vw,4.2rem);line-height:.98;letter-spacing:-.055em;margin-top:18px
+    }
+    .heading h2 span{color:var(--accent-2)}
+    .heading p{color:var(--muted);margin-top:18px;max-width:620px}
+
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:49px;
+      padding:0 21px;border-radius:var(--pill);border:1px solid transparent;font-weight:800;
+      font-size:.84rem;transition:.25s ease;position:relative;overflow:hidden
+    }
+    .btn:hover{transform:translateY(-3px);box-shadow:0 14px 35px rgba(255,140,0,.2)}
+    .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#17120a;box-shadow:0 12px 28px rgba(255,145,0,.22)}
+    .btn-secondary{background:#fff;border-color:var(--line)}
+
+    /* HEADER */
+    .header{
+      position:sticky;top:0;z-index:100;background:rgba(251,250,246,.88);
+      backdrop-filter:blur(18px);border-bottom:1px solid rgba(231,225,213,.85)
+    }
+    .nav{min-height:76px;display:flex;align-items:center;justify-content:space-between}
+    .logo{font-size:1.5rem;font-weight:950;font-style:italic;letter-spacing:-.07em}
+    .logo span{color:var(--accent-2)}
+    .nav-links{display:flex;gap:27px;list-style:none;align-items:center}
+    .nav-links a{font-size:.78rem;font-weight:750;color:#665f56;position:relative}
+    .nav-links a:not(.nav-cta)::after{
+      content:"";position:absolute;left:0;bottom:-9px;width:0;height:2px;background:var(--accent-2);transition:.25s
+    }
+    .nav-links a:not(.nav-cta):hover::after{width:100%}
+    .nav-cta{padding:11px 18px;border-radius:var(--pill);background:var(--ink);color:#fff!important}
+    .burger{
+      display:none;width:44px;height:44px;border:1px solid var(--line);background:#fff;border-radius:14px;position:relative
+    }
+    .burger span,.burger::before,.burger::after{
+      content:"";position:absolute;width:19px;height:2px;background:var(--ink);left:50%;transform:translateX(-50%);transition:.25s
+    }
+    .burger span{top:21px}.burger::before{top:15px}.burger::after{top:27px}
+    .burger.active span{opacity:0}
+    .burger.active::before{top:21px;transform:translateX(-50%) rotate(45deg)}
+    .burger.active::after{top:21px;transform:translateX(-50%) rotate(-45deg)}
+
+    /* HERO */
+    .hero{min-height:calc(100vh - 76px);display:grid;align-items:center;padding:85px 0;overflow:hidden;position:relative}
+    .hero::before{
+      content:"";position:absolute;width:600px;height:600px;border-radius:50%;right:-220px;top:-180px;
+      background:rgba(255,174,0,.16);filter:blur(90px);animation:orb 8s ease-in-out infinite alternate
+    }
+    .hero-grid{display:grid;grid-template-columns:1.03fr .97fr;gap:70px;align-items:center}
+    .hero h1{font-size:clamp(3.5rem,7vw,7rem);line-height:.86;letter-spacing:-.075em;margin-top:21px;max-width:780px}
+    .hero h1 .orange{color:var(--accent-2)}
+    .hero h1 .outline{color:transparent;-webkit-text-stroke:1.5px var(--accent-2)}
+    .hero-copy>p{color:var(--muted);max-width:600px;margin-top:26px;font-size:1.05rem}
+    .hero-actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:31px}
+    .hero-note{font-size:.72rem;color:#9b9389;margin-top:15px}
+
+    .hero-art{position:relative;min-height:490px;display:grid;place-items:center}
+    .hero-frame{
+      width:min(500px,100%);aspect-ratio:1.08;background:#17130d;border-radius:38px;position:relative;overflow:hidden;
+      box-shadow:0 35px 100px rgba(67,39,0,.22);transform:rotate(2deg);animation:float 5s ease-in-out infinite
+    }
+    .hero-frame::before{
+      content:"";position:absolute;inset:-30%;
+      background:conic-gradient(from 0deg,transparent,#ffae00,transparent 30%,#ff6b00,transparent 55%);
+      animation:spin 7s linear infinite;filter:blur(25px);opacity:.7
+    }
+    .hero-frame::after{
+      content:"";position:absolute;inset:12px;border:1px solid rgba(255,174,0,.35);border-radius:30px;
+      background:radial-gradient(circle at 50% 35%,rgba(255,174,0,.22),transparent 35%),#100d08
+    }
+    .hero-logo{
+      position:absolute;z-index:2;inset:0;display:grid;place-items:center;color:#fff;
+      font-size:clamp(3.5rem,8vw,6rem);font-weight:950;font-style:italic;letter-spacing:-.09em;
+      text-shadow:0 0 35px rgba(255,174,0,.65)
+    }
+    .hero-logo span{color:var(--accent)}
+    .hero-play{
+      position:absolute;z-index:3;top:28%;left:50%;transform:translate(-50%,-50%);
+      width:78px;height:78px;border-radius:25px;display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#21170b;
+      box-shadow:0 0 0 10px rgba(255,174,0,.08),0 0 55px rgba(255,174,0,.4);animation:pulseBox 2s infinite
+    }
+    .hero-play::after{
+      content:"";width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;
+      border-left:16px solid #241707;margin-left:4px
+    }
+    .float-tag{
+      position:absolute;z-index:4;background:#fff;border:1px solid var(--line);padding:12px 15px;border-radius:16px;
+      box-shadow:var(--shadow);font-size:.74rem;font-weight:850;animation:float2 4s ease-in-out infinite
+    }
+    .tag1{left:-12px;bottom:50px}.tag2{right:-10px;top:50px;animation-delay:-1.5s}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:75px}
+    .stat{padding:18px;background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:18px}
+    .stat strong{font-size:1.15rem}.stat small{display:block;color:var(--muted);font-size:.7rem;margin-top:3px}
+
+    /* PORTFOLIO */
+    .portfolio,.pricing,.reviews{background:#fff}
+    .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:25px}
+    .filter{
+      border:1px solid var(--line);background:#fff;padding:10px 16px;border-radius:var(--pill);
+      font-size:.75rem;font-weight:800;color:var(--muted);transition:.2s
+    }
+    .filter:hover,.filter.active{
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#241708;border-color:transparent;
+      box-shadow:0 9px 25px rgba(255,145,0,.18)
+    }
+    .portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .portfolio-card{
+      background:var(--bg);border:1px solid var(--line);border-radius:22px;overflow:hidden;
+      transition:transform .25s ease,box-shadow .25s ease;animation:cardIn .7s both
+    }
+    .portfolio-card:hover{transform:translateY(-9px);box-shadow:var(--shadow)}
+    .portfolio-card.hidden{display:none}
+    .thumb{
+      aspect-ratio:16/9;background:linear-gradient(135deg,#e8e2d5,#f8f5ed);position:relative;
+      display:grid;place-items:center;overflow:hidden;cursor:pointer
+    }
+    .thumb.vertical{aspect-ratio:9/14}
+    .thumb.motion{background:radial-gradient(circle at 70% 30%,rgba(255,174,0,.35),transparent 35%),#eee9de}
+    .thumb::before{
+      content:"";position:absolute;width:150%;height:50px;background:linear-gradient(90deg,transparent,rgba(255,174,0,.3),transparent);
+      transform:rotate(-25deg) translateX(-80%);transition:.6s
+    }
+    .portfolio-card:hover .thumb::before{transform:rotate(-25deg) translateX(80%)}
+    .thumb img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+    .placeholder{font-size:.75rem;color:#8e867a;font-weight:800;text-align:center;z-index:1;padding:15px}
+    .play{
+      width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#c56d00;
+      box-shadow:0 12px 30px rgba(35,25,8,.12);transition:.3s;z-index:2
+    }
+    .portfolio-card:hover .play{transform:scale(1.12);box-shadow:0 0 0 9px rgba(255,174,0,.12),0 14px 35px rgba(35,25,8,.15)}
+    .label{position:absolute;top:12px;left:12px;padding:6px 9px;background:rgba(255,255,255,.9);border-radius:8px;font-size:.65rem;font-weight:900;z-index:3}
+    .pinfo{padding:18px}.pinfo h3{font-size:.95rem}.pinfo p{font-size:.75rem;color:var(--muted);margin-top:4px}
+    .empty{display:none;border:1px dashed #d8cfbf;border-radius:20px;padding:30px;text-align:center;color:var(--muted)}
+
+    /* PROCESS */
+    .process-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0}
+    .step{position:relative;padding:20px;text-align:center}
+    .step:not(:last-child)::after{
+      content:"";position:absolute;top:46px;left:68%;width:64%;height:1px;
+      background:linear-gradient(90deg,var(--accent),rgba(255,174,0,.08));transform-origin:left
+    }
+    .step-icon{
+      width:58px;height:58px;margin:auto;border-radius:50%;display:grid;place-items:center;background:#fff;
+      border:1px solid rgba(255,174,0,.65);box-shadow:0 0 0 8px rgba(255,174,0,.06),0 12px 30px rgba(50,35,5,.08);
+      font-weight:900;color:#bd6800;position:relative;z-index:1;transition:.3s
+    }
+    .step:hover .step-icon{transform:scale(1.13) rotate(8deg);background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#1c1307}
+    .step h3{font-size:.82rem;margin-top:17px}.step p{font-size:.7rem;color:var(--muted);margin-top:6px}
+
+    /* PRICING */
+    .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .price-card{padding:29px;background:var(--bg);border:1px solid var(--line);border-radius:25px;transition:.3s}
+    .price-card:hover{transform:translateY(-8px);box-shadow:var(--shadow)}
+    .price-card.featured{background:var(--dark);color:#fff;border-color:#4a3715;box-shadow:0 25px 80px rgba(31,21,4,.2);transform:translateY(-8px)}
+    .price-card.featured:hover{transform:translateY(-14px)}
+    .tag{display:inline-block;padding:6px 10px;border-radius:8px;background:#fff3d1;color:#9c5b00;font-size:.65rem;font-weight:900;text-transform:uppercase}
+    .featured .tag{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#251806}
+    .price-card h3{margin-top:18px}.price-card p{font-size:.75rem;color:var(--muted);margin-top:6px}.featured p{color:#aaa295}
+    .price{font-size:2rem;font-weight:950;margin-top:24px;letter-spacing:-.06em}.price small{font-size:.72rem;color:var(--muted);font-weight:500;letter-spacing:0}
+    .features{list-style:none;margin:22px 0;display:grid;gap:9px}.features li{font-size:.76rem;color:var(--muted)}
+    .featured .features li{color:#b7afa3}.features li::before{content:"✓";color:var(--accent-2);font-weight:900;margin-right:8px}
+    .price-card .btn{width:100%}.disclaimer{text-align:center;color:var(--muted);font-size:.7rem;margin-top:18px}
+
+    /* ABOUT / REVIEWS */
+    .about-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:75px;align-items:center}
+    .about-visual{
+      min-height:430px;border-radius:30px;background:#17130d;position:relative;overflow:hidden;display:grid;
+      place-items:center;box-shadow:var(--shadow)
+    }
+    .about-visual::before{
+      content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,174,0,.25);
+      filter:blur(60px);animation:orb 6s infinite alternate
+    }
+    .about-placeholder{
+      width:240px;aspect-ratio:1;border:1px dashed rgba(255,174,0,.6);border-radius:28px;display:grid;
+      place-items:center;color:#d9cbb5;text-align:center;position:relative;z-index:1;padding:20px
+    }
+    .about-copy h2{font-size:clamp(2.2rem,4.5vw,4rem);line-height:.98;letter-spacing:-.055em;margin-top:18px}
+    .about-copy>p{color:var(--muted);margin-top:20px}.points{display:grid;gap:12px;margin-top:28px}
+    .point{display:flex;gap:12px;align-items:center}.point b{width:34px;height:34px;border-radius:10px;background:#fff2cf;color:#bd6800;display:grid;place-items:center;font-size:.7rem;flex:none}
+    .point span{font-size:.78rem}
+    .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}
+    .review{
+      min-height:205px;padding:23px;border:1px dashed #d6cebf;border-radius:22px;background:var(--bg);
+      display:flex;flex-direction:column;justify-content:space-between;transition:.3s
+    }
+    .review:hover{transform:translateY(-6px);border-color:var(--accent)}
+    .review p{font-size:.8rem;color:var(--muted)}.review footer{padding-top:15px;border-top:1px solid var(--line);font-size:.7rem;font-weight:800;color:#8a8175}
+
+    /* CONTACT */
+    .contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:55px}
+    .contact-copy h2{font-size:clamp(2.4rem,5vw,4.7rem);line-height:.93;letter-spacing:-.06em;margin-top:18px}
+    .contact-copy>p{color:var(--muted);max-width:520px;margin-top:19px}
+    .contact-cards{display:grid;gap:10px;margin-top:28px}
+    .contact-card{
+      display:flex;gap:13px;align-items:center;padding:15px;background:#fff;border:1px solid var(--line);
+      border-radius:17px;transition:.25s
+    }
+    .contact-card:hover{transform:translateX(6px);border-color:rgba(255,174,0,.55);box-shadow:0 10px 25px rgba(50,35,5,.06)}
+    .cicon{width:40px;height:40px;border-radius:12px;background:#fff2cf;color:#bd6800;display:grid;place-items:center;font-size:.7rem;font-weight:900;flex:none}
+    .contact-card small{display:block;color:var(--muted);font-size:.65rem}.contact-card strong{font-size:.8rem}
+    .form{padding:29px;background:#fff;border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow)}
+    .field{display:grid;gap:6px;margin-bottom:15px}.field label{font-size:.74rem;font-weight:800}
+    .field input,.field textarea{
+      width:100%;border:1px solid var(--line);background:var(--bg);border-radius:13px;padding:12px 13px;
+      outline:0;transition:.2s
+    }
+    .field textarea{min-height:125px;resize:vertical}
+    .field input:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(255,174,0,.1)}
+    .form .btn{width:100%}.form-note{text-align:center;color:var(--muted);font-size:.65rem;margin-top:10px}
+    .form-status{text-align:center;font-size:.72rem;margin-top:12px;min-height:1.2em;color:#8b5a00}
+
+    footer.site-footer{padding:28px 0;border-top:1px solid var(--line);background:#fff}
+    .footer-in{display:flex;justify-content:space-between;align-items:center;gap:20px}
+    .footer-copy{font-size:.7rem;color:var(--muted)}.footer-links{display:flex;gap:16px;font-size:.7rem;color:var(--muted)}
+
+    /* MODAL */
+    .modal{
+      position:fixed;inset:0;z-index:300;background:rgba(18,13,6,.82);backdrop-filter:blur(9px);
+      display:none;align-items:center;justify-content:center;padding:22px
+    }
+    .modal.open{display:flex}.modal-box{width:min(1000px,100%);position:relative}
+    .modal-video{aspect-ratio:16/9;background:#080706;border-radius:20px;overflow:hidden;box-shadow:0 30px 100px rgba(0,0,0,.35)}
+    .modal-video iframe{width:100%;height:100%;border:0}
+    .modal-placeholder{height:100%;display:grid;place-items:center;color:#cfc6b8;text-align:center;padding:25px}
+    .modal-close{
+      position:absolute;right:0;bottom:calc(100% + 12px);width:40px;height:40px;border:0;border-radius:50%;
+      background:#fff;font-size:1.2rem
+    }
+
+    @keyframes pulseBox{
+      0%,100%{box-shadow:0 0 0 0 rgba(255,174,0,.35),0 0 55px rgba(255,174,0,.35)}
+      50%{box-shadow:0 0 0 15px rgba(255,174,0,0),0 0 75px rgba(255,174,0,.5)}
+    }
+    @keyframes orb{from{transform:translate(0,0) scale(1)}to{transform:translate(-45px,35px) scale(1.15)}}
+    @keyframes float{0%,100%{transform:rotate(2deg) translateY(0)}50%{transform:rotate(1deg) translateY(-12px)}}
+    @keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @keyframes cardIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+      .reveal{opacity:1;transform:none}
+    }
+    @media(max-width:1000px){
+      .hero-grid,.about-grid,.contact-grid{gap:40px}
+      .portfolio-grid{grid-template-columns:repeat(2,1fr)}
+      .process-grid{grid-template-columns:repeat(3,1fr)}
+      .step::after{display:none!important}
+      .pricing-grid{grid-template-columns:1fr;max-width:620px}
+      .reviews-grid{grid-template-columns:1fr}
+      .price-card.featured{transform:none}
+    }
+    @media(max-width:760px){
+      .container{width:min(calc(100% - 28px),var(--max))}
+      .section{padding:78px 0}
+      .burger{display:block}
+      .nav-links{
+        position:absolute;top:100%;left:0;right:0;display:none;flex-direction:column;align-items:stretch;
+        gap:3px;padding:12px;background:rgba(255,255,255,.98);border-bottom:1px solid var(--line);
+        box-shadow:0 18px 35px rgba(30,20,5,.08)
+      }
+      .nav-links.open{display:flex}.nav-links a{padding:13px}
+      .hero{padding:65px 0;min-height:auto}.hero-grid{grid-template-columns:1fr}
+      .hero-art{min-height:380px}.hero-frame{max-width:460px}
+      .stats{grid-template-columns:repeat(2,1fr);margin-top:50px}
+      .portfolio-grid{grid-template-columns:1fr}.process-grid{grid-template-columns:1fr 1fr}
+      .about-grid,.contact-grid{grid-template-columns:1fr}.about-visual{min-height:330px}
+      .footer-in{flex-direction:column;align-items:flex-start}
+    }
+    @media(max-width:480px){
+      .hero h1{font-size:clamp(3.1rem,17vw,5rem)}
+      .hero-actions{flex-direction:column}.hero-actions .btn{width:100%}
+      .stats,.process-grid{grid-template-columns:1fr}.tag1{left:0}.tag2{right:0}
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <div class="container nav">
+      <a class="logo" href="#top" aria-label="Retour en haut">IR<span>ON</span></a>
+
+      <button class="burger" id="burger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span>
+      </button>
+
+      <nav aria-label="Navigation principale">
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#process">Process</a></li>
+          <li><a href="#tarifs">Tarifs</a></li>
+          <li><a href="#about">À propos</a></li>
+          <li><a href="#avis">Avis</a></li>
+          <li><a href="#contact" class="nav-cta">Me contacter</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-copy reveal">
+            <span class="eyebrow"><i></i> Monteur vidéo · YouTube & Instagram</span>
+            <h1>Je monte.<br><span class="orange">Tu marques.</span><br><span class="outline">On gagne.</span></h1>
+            <p>Salut, moi c'est Iron, un jeune monteur passionné qui est là pour t'apporter de la visibilité grâce à mon montage.</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#portfolio">Voir le portfolio →</a>
+              <a class="btn btn-secondary" href="#contact">Me contacter ↗</a>
+            </div>
+            <p class="hero-note">Portfolio en construction — les réalisations seront ajoutées ici prochainement.</p>
+          </div>
+
+          <div class="hero-art reveal">
+            
+          </div>
+        </div>
+
+        <div class="stats reveal" aria-label="Statistiques">
+          <div class="stat"><strong>10+</strong><small>Projets réalisés · à confirmer</small></div>
+          <div class="stat"><strong>2</strong><small>Années d'expérience · à confirmer</small></div>
+          <div class="stat"><strong>5</strong><small>Clients satisfaits · à confirmer</small></div>
+          <div class="stat"><strong>30+</strong><small>Vidéos montées · à confirmer</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section portfolio" id="portfolio">
+      <div class="container">
+        <div class="heading reveal">
+          <span class="eyebrow"><i></i> Portfolio</span>
+          <h2>Mes <span>réalisations</span></h2>
+          <p>Des emplacements prêts à accueillir tes futurs montages YouTube et Instagram.</p>
+        </div>
+
+        <div class="filters reveal" role="group" aria-label="Filtrer le portfolio">
+          <button class="filter active" type="button" data-filter="all" aria-pressed="true">Tout</button>
+          <button class="filter" type="button" data-filter="horizontal" aria-pressed="false">Horizontale</button>
+          <button class="filter" type="button" data-filter="vertical" aria-pressed="false">Verticale</button>
+          <button class="filter" type="button" data-filter="motion" aria-pressed="false">Motion Design</button>
+        </div>
+
+        <div class="portfolio-grid" id="portfolioGrid">
+          <article class="portfolio-card reveal" data-category="horizontal" data-embed="https://www.youtube.com/embed/aIgkgmH3NEg">
+            <div class="thumb" role="button" tabindex="0" aria-label="Ouvrir la vidéo du projet 1">
+              <span class="label">HORIZONTALE</span>
+              <img src="images/minia-anakin.png" alt="Miniature du projet horizontal" loading="lazy" onerror="this.style.display='none'">
+              <span class="play" aria-hidden="true">▶</span>
+            </div>
+            <div class="pinfo"><h3>
+              Ce jeu Roblox qui permet d'être CERTIFIER</h3><p><br> - Environ 4h de travail <br> - De nombreux retours <br> - Projet encadré par de nombreux monteurs pour les retours</p></div>
+          </article>
+
+          <article class="portfolio-card reveal" data-category="horizontal" data-embed="https://www.youtube.com/embed/ACeMiNFr5MM">
+            <div class="thumb" role="button" tabindex="0" aria-label="Projet horizontal sans vidéo">
+              <span class="label">HORIZONTALE</span>
+              <img src="images/minia-loup.png" alt="Miniature du projet horizontal" loading="lazy" onerror="this.style.display='none'">
+            <span class="play" aria-hidden="true">▶</span>
+            </div>
+            <div class="pinfo"><h3>Comment j'ai enfin réussi à tenir ma diète </h3><p><br> - Vidéo a animé avec de nombreuses images et vidéos <br> - Environ 3h de travail <br> - Quelques retours mais modifiés très rapidement </p></div>
+          </article>
+
+          <article class="portfolio-card reveal" data-category="vertical" data-embed="https://www.youtube.com/embed/HowE_7jYMvI"> 
+            <div class="thumb vertical" role="button" tabindex="0" aria-label="Ouvrir la vidéo du projet vertical">
+              <span class="label">VERTICALE</span>
+              <img src="images/im1.png" alt="Miniature du projet vertical" loading="lazy" onerror="this.style.display='none'">
+              <span class="play" aria-hidden="true">▶</span>
+            </div>
+            <div class="pinfo"><h3>Titre de la vidéo</h3><p>Description courte du projet</p></div>
+          </article>
+
+          <article class="portfolio-card reveal" data-category="vertical" data-embed="https://www.youtube.com/embed/PQCqR0P_1iE">
+            <div class="thumb vertical" role="button" tabindex="0" aria-label="Projet vertical sans vidéo">
+              <span class="label">VERTICALE</span>
+              <img src="images/im3.png" alt="Miniature du projet vertical" loading="lazy" onerror="this.style.display='none'">
+              <span class="play" aria-hidden="true">▶</span>
+            </div>
+            <div class="pinfo"><h3>Titre de la vidéo</h3><p>Description courte du projet</p></div>
+          </article>
+
+          <article class="portfolio-card reveal" data-category="vertical" data-embed="">
+            <div class="thumb vertical" role="button" tabindex="0" aria-label="Projet motion design sans vidéo">
+              <span class="label">MOTION DESIGN</span>
+              <img src="images/im2.png" alt="Miniature du projet vertical" loading="lazy" onerror="this.style.display='none'">
+              <span class="play" aria-hidden="true">▶</span>
+            </div>
+            <div class="pinfo"><h3>Titre de la vidéo</h3><p>Description courte du projet</p></div>
+          </article>
+
+          <article class="portfolio-card reveal" data-category="motion" data-embed="https://www.youtube.com/embed/IuClk167jeo">
+            <div class="thumb" role="button" tabindex="0" aria-label="Projet motion design sans vidéo">
+              <span class="label">MOTION DESIGN</span>
+              <img src="images/minia-test.png" alt="Miniature du projet horizontal" loading="lazy" onerror="this.style.display='none'">
+            <span class="play" aria-hidden="true">▶</span>
+            </div>
+            <div class="pinfo"><h3>Test de montage ! </h3><p><br> - Environ 30 min de travail <br> - Quelques ajustements pour rendre l'intro la plus belle que possible <br> - Projet pour évaluer mon niveau</p></div>
+          </article>
+
+        <div class="empty" id="empty">Aucun projet dans cette catégorie pour le moment.</div>
+      </div>
+    </section>
+
+    <section class="section" id="process">
+      <div class="container">
+        <div class="heading reveal">
+          <span class="eyebrow"><i></i> Process</span>
+          <h2>Mon process <span>de travail</span></h2>
+          <p>Un accompagnement clair, du brief à la livraison finale.</p>
+        </div>
+
+        <div class="process-grid">
+          <article class="step reveal"><div class="step-icon">01</div><h3>LA DEMANDE</h3><p>Tu me donne les infos <br> (ce qui est attendu, temps, la deadline, ... ) </p></article>
+          <article class="step reveal"><div class="step-icon">02</div><h3>MONTAGE</h3><p>Je donne au contenu rythme et précision.</p></article>
+          <article class="step reveal"><div class="step-icon">03</div><h3>RETOURS</h3><p>Tu donnes tes retours, j'ajuste si besoin.</p></article>
+          <article class="step reveal"><div class="step-icon">04</div><h3>LIVRAISON</h3><p>Réception de la vidéo finale en haute qualité.</p></article>
+          <article class="step reveal"><div class="step-icon">05</div><h3>SUIVI</h3><p>Besoin d'un ajustement ? Je reste dispo.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section pricing" id="tarifs">
+      <div class="container">
+        <div class="heading reveal">
+          <span class="eyebrow"><i></i> Tarifs</span>
+          <h2>Les <span>offres</span></h2>
+          <p>Des formules simples à adapter selon la durée, le style et les besoins spécifiques.</p>
+        </div>
+
+        <div class="pricing-grid">
+          <article class="price-card reveal">
+            <span class="tag">Basique</span><h3>Essentiel</h3><p>Pour des vidéos simples et efficaces.</p>
+            <div class="price">50 <small>€</small></div>
+            <ul class="features"><li>Montage Simple et Efficace</li><li>Rushs ( 1h30  Max )</li><li>Effets & transitions simples </li><li>Sound design basique</li><li>2 à 3 retours</li></ul>
+            <a class="btn btn-secondary" href="#contact">Me contacter</a>
+          </article>
+
+          <article class="price-card featured reveal">
+            <span class="tag">Populaire</span><h3>Formats Courts</h3><p>Pour vos formats courts pour Insta, Tiktok, Short.</p>
+            <div class="price">250 <small>€</small></div>
+            <ul class="features"><li>Pack 10 Réels ( 25€ / Réels ) </li><li>Montage vertical ( 2 min Max )</li><li>Sous-titres / rythme</li><li>Montage dynamique</li><li>1 à 2 retours</li></ul>
+            <a class="btn btn-primary" href="#contact">Me contacter</a>
+          </article>
+          
+          <article class="price-card reveal">
+            <span class="tag">Premium</span><h3>Sur mesure</h3><p>Pour un rendu haut de gamme sur devis.</p>
+            <div class="price">+ 100 <small>€</small></div>
+            <ul class="features"><li>Montage poussé</li><li>Effets avancés</li><li>Sound design poussé</li><li>Retours selon devis*</li></ul>
+            <a class="btn btn-secondary" href="#contact">Me contacter</a>
+          </article>
+        </div>
+
+        <p class="disclaimer">⚠ Tarifs approximatifs <br> <br>Les tarifs affichés sur ce site sont donnés à titre indicatif. <br> Chaque projet est unique : le prix peut varier selon le style de montage, </br> la durée, la complexité, les effets demandés, le temps de travail nécessaire et vos besoins spécifiques.</p>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-visual reveal">
+            <div class="about-placeholder"><div><strong><img src="images/PDP I.png"></strong><br></div></div>
+          </div>
+
+          <div class="about-copy reveal">
+            <span class="eyebrow"><i></i> À propos</span>
+            <h2>Qui <span style="color:var(--accent-2)">suis-je ?</span></h2>
+            
+            <div class="points">
+              <div class="point"><b>01</b><span>Je travaille sur Premiere Pro et After Effect</span></div>
+              <div class="point"><b>02</b><span>J'ai déjà pu travailler dans une agence d'audio visuel avec de nombreux autres monteurs vidéos</span></div>
+              <div class="point"><b>03</b><span>Un échange simple et des retours pris en compte.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reviews" id="avis">
+      <div class="container">
+        <div class="heading reveal">
+          <span class="eyebrow"><i></i> Avis clients</span>
+          <h2>Vos <span>retours</span></h2>
+          <p>Aucun faux témoignage : cette section est prête à recevoir les retours de vrais clients.</p>
+        </div>
+
+        <div class="reviews-grid">
+          <article class="review reveal"><p>Emplacement pour un véritable avis client.</p><footer>Client / créateur — à renseigner</footer></article>
+          <article class="review reveal"><p>Emplacement pour un véritable avis client.</p><footer>Client / créateur — à renseigner</footer></article>
+          <article class="review reveal"><p>Emplacement pour un véritable avis client.</p><footer>Client / créateur — à renseigner</footer></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="contact-grid">
+          <div class="contact-copy reveal">
+            <span class="eyebrow"><i></i> Contact</span>
+            <h2>Travaillons <span style="color:var(--accent-2)">ensemble.</span></h2>
+            <p>Parle-moi de ton projet, je te réponds avec une première estimation.</p>
+
+            <div class="contact-cards">
+              <a class="contact-card" href="mailto:n.ironmax136@gmail.com">
+                <div class="cicon">@</div><div><small>Email</small><strong>n.ironmax136@gmail.com</strong></div>
+              </a>
+              <a class="contact-card" href="https://www.instagram.com/iron.editing/" target="_blank" rel="noopener noreferrer">
+                <div class="cicon">IG</div><div><small>Instagram</small><strong>@iron.editing</strong></div>
+              </a>
+              <div class="contact-card">
+                <div class="cicon">WA</div><div><small>WhatsApp</small><strong>Numéro à venir</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <form class="form reveal" id="contactForm">
+            <div class="field">
+              <label for="name">Nom / pseudo</label>
+              <input id="name" name="name" required autocomplete="name" placeholder="Ton nom ou pseudo">
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" required autocomplete="email" placeholder="ton@email.com">
+            </div>
+            <div class="field">
+              <label for="subject">Sujet</label>
+              <input id="subject" name="subject" placeholder="Ex. Montage YouTube 15 min">
+            </div>
+            <div class="field">
+              <label for="message">Ton message</label>
+              <textarea id="message" name="message" required placeholder="Parle-moi de ton projet..."></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit">Préparer l'email ↗</button>
+            <p class="form-note">Le formulaire ouvre ton application email avec un message pré-rempli.</p>
+            <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-in">
+      <div class="footer-copy">© 2026 Iron — Tous droits réservés.</div>
+      <div class="footer-links">
+        <a href="#portfolio">Portfolio</a><a href="#contact">Contact</a>
+        <a href="https://www.instagram.com/iron.editing/" target="_blank" rel="noopener noreferrer">Instagram</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+    <div class="modal-box">
+      <button class="modal-close" id="modalClose" type="button" aria-label="Fermer la vidéo">×</button>
+      <div class="modal-video" id="modalVideo">
+        <div class="modal-placeholder">
+          <div><strong id="modalTitle">Vidéo non renseignée</strong><br><small>Ajoute une URL dans data-embed sur la carte concernée.</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const destination = "n.ironmax136@gmail.com";
+      const burger = document.getElementById("burger");
+      const nav = document.getElementById("navLinks");
+      const modal = document.getElementById("modal");
+      const modalVideo = document.getElementById("modalVideo");
+      const modalClose = document.getElementById("modalClose");
+      const cards = [...document.querySelectorAll(".portfolio-card")];
+      const filters = [...document.querySelectorAll(".filter")];
+      const empty = document.getElementById("empty");
+      const form = document.getElementById("contactForm");
+      const formStatus = document.getElementById("formStatus");
+
+      // Menu mobile
+      function setMenu(open) {
+        nav.classList.toggle("open", open);
+        burger.classList.toggle("active", open);
+        burger.setAttribute("aria-expanded", String(open));
+        burger.setAttribute("aria-label", open ? "Fermer le menu" : "Ouvrir le menu");
+      }
+
+      burger.addEventListener("click", () => setMenu(!nav.classList.contains("open")));
+      nav.querySelectorAll("a").forEach(link => link.addEventListener("click", () => setMenu(false)));
+
+      // Filtres portfolio
+      filters.forEach(button => {
+        button.addEventListener("click", () => {
+          const filter = button.dataset.filter;
+          let visibleCount = 0;
+
+          filters.forEach(btn => {
+            const active = btn === button;
+            btn.classList.toggle("active", active);
+            btn.setAttribute("aria-pressed", String(active));
+          });
+
+          cards.forEach((card, index) => {
+            const visible = filter === "all" || card.dataset.category === filter;
+            card.classList.toggle("hidden", !visible);
+            if (visible) {
+              visibleCount++;
+              card.style.animationDelay = `${index * 50}ms`;
+            }
+          });
+
+          empty.style.display = visibleCount ? "none" : "block";
+        });
+      });
+
+      // Modal vidéo : uniquement des URL YouTube/Vimeo autorisées.
+      function getSafeEmbedUrl(rawUrl) {
+        if (!rawUrl) return null;
+
+        try {
+          const url = new URL(rawUrl, window.location.href);
+          const host = url.hostname.toLowerCase();
+
+          const allowed =
+            host === "youtube.com" ||
+            host === "www.youtube.com" ||
+            host === "youtube-nocookie.com" ||
+            host === "www.youtube-nocookie.com" ||
+            host === "vimeo.com" ||
+            host === "www.vimeo.com" ||
+            host === "player.vimeo.com";
+
+          if (!allowed) return null;
+          if (!url.pathname.startsWith("/embed/")) return null;
+
+          return url.href;
+        } catch {
+          return null;
+        }
+      }
+
+      function openModal(card) {
+        const rawUrl = (card.dataset.embed || "").trim();
+        const safeUrl = getSafeEmbedUrl(rawUrl);
+
+        modal.hidden = false;
+        modal.classList.add("open");
+        document.body.classList.add("modal-open");
+
+        if (safeUrl) {
+          modalVideo.innerHTML = "";
+          const iframe = document.createElement("iframe");
+          iframe.src = safeUrl;
+          iframe.title = "Vidéo portfolio Iron";
+          iframe.loading = "lazy";
+          iframe.allow = "autoplay; fullscreen; picture-in-picture";
+          iframe.allowFullscreen = true;
+          iframe.referrerPolicy = "strict-origin-when-cross-origin";
+          modalVideo.appendChild(iframe);
+        } else {
+          modalVideo.innerHTML = `
+            <div class="modal-placeholder">
+              <div><strong>Vidéo non renseignée</strong><br>
+              <small>Ajoute une URL d'embed YouTube ou Vimeo dans data-embed.</small></div>
+            </div>`;
+        }
+
+        modalClose.focus();
+      }
+
+      function closeModal() {
+        modal.classList.remove("open");
+        document.body.classList.remove("modal-open");
+        modal.hidden = true;
+        modalVideo.innerHTML = `
+          <div class="modal-placeholder">
+            <div><strong>Vidéo non renseignée</strong><br>
+            <small>Ajoute une URL d'embed YouTube ou Vimeo dans data-embed.</small></div>
+          </div>`;
+      }
+
+      cards.forEach(card => {
+        const thumb = card.querySelector(".thumb");
+        thumb.addEventListener("click", () => openModal(card));
+        thumb.addEventListener("keydown", event => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            openModal(card);
+          }
+        });
+      });
+
+      modalClose.addEventListener("click", closeModal);
+      modal.addEventListener("click", event => {
+        if (event.target === modal) closeModal();
+      });
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && !modal.hidden) closeModal();
+      });
+
+      // Apparition au scroll
+      const revealElements = document.querySelectorAll(".reveal");
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {threshold: 0.12});
+        revealElements.forEach(el => observer.observe(el));
+      } else {
+        revealElements.forEach(el => el.classList.add("visible"));
+      }
+
+      // Formulaire mailto
+      form.addEventListener("submit", event => {
+        event.preventDefault();
+
+        const data = new FormData(form);
+        const name = String(data.get("name") || "").trim();
+        const email = String(data.get("email") || "").trim();
+        const subject = String(data.get("subject") || "").trim() || "Demande de montage vidéo";
+        const message = String(data.get("message") || "").trim();
+
+        const body =
+          `Bonjour Iron,\n\n` +
+          `Nom / pseudo : ${name}\n` +
+          `Email : ${email}\n\n` +
+          `Projet :\n${message}\n\n` +
+          `À bientôt,\n${name}`;
+
+        const mailto = `mailto:${destination}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        formStatus.textContent = "Ouverture de votre application email…";
+        window.location.href = mailto;
+      });
+
+      // Ferme le menu mobile si la fenêtre repasse en desktop.
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 760) setMenu(false);
+      });
+    })();
+  </script>
+</body>
+</html>
