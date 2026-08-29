@@ -12,7 +12,7 @@
   <style>
     :root{
       --bg:#fbfaf6;--surface:#fff;--surface-2:#f4f1e9;--ink:#171512;--muted:#777168;
-      --line:#e7e1d5;--accent:#ffae00;--accent-2:#ff7a00;--dark:#16120b;
+      --line:#e7e1d5;--accent:rgb(38, 0, 255);--accent-2:rgb(38, 0, 255);--dark:#16120b;
       --shadow:0 25px 70px rgba(43,31,8,.12);--radius:24px;--pill:999px;--max:1180px;
     }
 
@@ -27,7 +27,7 @@
     button,input,textarea{font:inherit}
     button{cursor:pointer}
     img{max-width:100%;display:block}
-    :focus-visible{outline:3px solid rgba(255,122,0,.45);outline-offset:3px}
+    :focus-visible{outline:3px solid rgb(38, 0, 255);outline-offset:3px}
 
     .container{width:min(calc(100% - 36px),var(--max));margin:auto}
     .section{padding:105px 0;position:relative}
@@ -43,8 +43,8 @@
     .reveal.visible{opacity:1;transform:none}
     .eyebrow{
       display:inline-flex;align-items:center;gap:8px;padding:7px 12px;
-      border:1px solid rgba(255,174,0,.35);background:#fff8e7;border-radius:var(--pill);
-      font-size:.72rem;font-weight:850;text-transform:uppercase;letter-spacing:.08em;color:#9b5e00
+      border:1px solid rgb(37, 150, 255);background:#fff8e7;border-radius:var(--pill);
+      font-size:.72rem;font-weight:850;text-transform:uppercase;letter-spacing:.08em;color:rgb(38, 0, 255)
     }
     .eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 15px var(--accent)}
     .heading{max-width:720px;margin-bottom:46px}
@@ -59,7 +59,7 @@
       padding:0 21px;border-radius:var(--pill);border:1px solid transparent;font-weight:800;
       font-size:.84rem;transition:.25s ease;position:relative;overflow:hidden
     }
-    .btn:hover{transform:translateY(-3px);box-shadow:0 14px 35px rgba(255,140,0,.2)}
+    .btn:hover{transform:translateY(-3px);box-shadow:0 14px 35px rgb(37, 150, 255)}
     .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#17120a;box-shadow:0 12px 28px rgba(255,145,0,.22)}
     .btn-secondary{background:#fff;border-color:var(--line)}
 
@@ -93,7 +93,7 @@
     .hero{min-height:calc(100vh - 76px);display:grid;align-items:center;padding:85px 0;overflow:hidden;position:relative}
     .hero::before{
       content:"";position:absolute;width:600px;height:600px;border-radius:50%;right:-220px;top:-180px;
-      background:rgba(255,174,0,.16);filter:blur(90px);animation:orb 8s ease-in-out infinite alternate
+      background:rgb(37, 150, 255);filter:blur(90px);animation:orb 8s ease-in-out infinite alternate
     }
     .hero-grid{display:grid;grid-template-columns:1.03fr .97fr;gap:70px;align-items:center}
     .hero h1{font-size:clamp(3.5rem,7vw,7rem);line-height:.86;letter-spacing:-.075em;margin-top:21px;max-width:780px}
@@ -110,7 +110,7 @@
     }
     .hero-frame::before{
       content:"";position:absolute;inset:-30%;
-      background:conic-gradient(from 0deg,transparent,#ffae00,transparent 30%,#ff6b00,transparent 55%);
+      background:conic-gradient(from 0deg,transparent,rgb(37, 150, 255),transparent 30%,rgb(37, 150, 255),transparent 55%);
       animation:spin 7s linear infinite;filter:blur(25px);opacity:.7
     }
     .hero-frame::after{
@@ -120,7 +120,7 @@
     .hero-logo{
       position:absolute;z-index:2;inset:0;display:grid;place-items:center;color:#fff;
       font-size:clamp(3.5rem,8vw,6rem);font-weight:950;font-style:italic;letter-spacing:-.09em;
-      text-shadow:0 0 35px rgba(255,174,0,.65)
+      text-shadow:0 0 35px rgb(37, 150, 255)
     }
     .hero-logo span{color:var(--accent)}
     .hero-play{
@@ -151,7 +151,7 @@
     }
     .filter:hover,.filter.active{
       background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#241708;border-color:transparent;
-      box-shadow:0 9px 25px rgba(255,145,0,.18)
+      box-shadow:0 9px 25px rgb(0, 60, 255)
     }
     .portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
     .portfolio-card{
@@ -174,10 +174,10 @@
     .thumb img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
     .placeholder{font-size:.75rem;color:#8e867a;font-weight:800;text-align:center;z-index:1;padding:15px}
     .play{
-      width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#c56d00;
+      width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:#fff;color:rgb(37, 150, 255);
       box-shadow:0 12px 30px rgba(35,25,8,.12);transition:.3s;z-index:2
     }
-    .portfolio-card:hover .play{transform:scale(1.12);box-shadow:0 0 0 9px rgba(255,174,0,.12),0 14px 35px rgba(35,25,8,.15)}
+    .portfolio-card:hover .play{transform:scale(1.12);box-shadow:0 0 0 9px rgba(255,174,0,.12),0 14px 35px rgb(37, 150, 255)}
     .label{position:absolute;top:12px;left:12px;padding:6px 9px;background:rgba(255,255,255,.9);border-radius:8px;font-size:.65rem;font-weight:900;z-index:3}
     .pinfo{padding:18px}.pinfo h3{font-size:.95rem}.pinfo p{font-size:.75rem;color:var(--muted);margin-top:4px}
     .empty{display:none;border:1px dashed #d8cfbf;border-radius:20px;padding:30px;text-align:center;color:var(--muted)}
@@ -191,8 +191,8 @@
     }
     .step-icon{
       width:58px;height:58px;margin:auto;border-radius:50%;display:grid;place-items:center;background:#fff;
-      border:1px solid rgba(255,174,0,.65);box-shadow:0 0 0 8px rgba(255,174,0,.06),0 12px 30px rgba(50,35,5,.08);
-      font-weight:900;color:#bd6800;position:relative;z-index:1;transition:.3s
+      border:1px solid rgb(37, 150, 255);box-shadow:0 0 0 8px rgba(255,174,0,.06),0 12px 30px rgba(50,35,5,.08);
+      font-weight:900;color:rgb(37, 150, 255);position:relative;z-index:1;transition:.3s
     }
     .step:hover .step-icon{transform:scale(1.13) rotate(8deg);background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#1c1307}
     .step h3{font-size:.82rem;margin-top:17px}.step p{font-size:.7rem;color:var(--muted);margin-top:6px}
@@ -201,14 +201,14 @@
     .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
     .price-card{padding:29px;background:var(--bg);border:1px solid var(--line);border-radius:25px;transition:.3s}
     .price-card:hover{transform:translateY(-8px);box-shadow:var(--shadow)}
-    .price-card.featured{background:var(--dark);color:#fff;border-color:#4a3715;box-shadow:0 25px 80px rgba(31,21,4,.2);transform:translateY(-8px)}
+    .price-card.featured{background:var(--dark);color:#fff;border-color:rgb(37, 150, 255);box-shadow:0 25px 80px rgba(31,21,4,.2);transform:translateY(-8px)}
     .price-card.featured:hover{transform:translateY(-14px)}
-    .tag{display:inline-block;padding:6px 10px;border-radius:8px;background:#fff3d1;color:#9c5b00;font-size:.65rem;font-weight:900;text-transform:uppercase}
+    .tag{display:inline-block;padding:6px 10px;border-radius:8px;background:#fff3d1;color:rgb(0, 60, 255);font-size:.65rem;font-weight:900;text-transform:uppercase}
     .featured .tag{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#251806}
     .price-card h3{margin-top:18px}.price-card p{font-size:.75rem;color:var(--muted);margin-top:6px}.featured p{color:#aaa295}
     .price{font-size:2rem;font-weight:950;margin-top:24px;letter-spacing:-.06em}.price small{font-size:.72rem;color:var(--muted);font-weight:500;letter-spacing:0}
     .features{list-style:none;margin:22px 0;display:grid;gap:9px}.features li{font-size:.76rem;color:var(--muted)}
-    .featured .features li{color:#b7afa3}.features li::before{content:"✓";color:var(--accent-2);font-weight:900;margin-right:8px}
+    .featured .features li{color:rgb(37, 150, 255)}.features li::before{content:"✓";color:var(--accent-2);font-weight:900;margin-right:8px}
     .price-card .btn{width:100%}.disclaimer{text-align:center;color:var(--muted);font-size:.7rem;margin-top:18px}
 
     /* ABOUT / REVIEWS */
@@ -218,16 +218,16 @@
       place-items:center;box-shadow:var(--shadow)
     }
     .about-visual::before{
-      content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,174,0,.25);
+      content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(0, 140, 255, 0.25);
       filter:blur(60px);animation:orb 6s infinite alternate
     }
     .about-placeholder{
-      width:240px;aspect-ratio:1;border:1px dashed rgba(255,174,0,.6);border-radius:28px;display:grid;
+      width:240px;aspect-ratio:1;border:1px dashed rgb(37, 150, 255);border-radius:28px;display:grid;
       place-items:center;color:#d9cbb5;text-align:center;position:relative;z-index:1;padding:20px
     }
     .about-copy h2{font-size:clamp(2.2rem,4.5vw,4rem);line-height:.98;letter-spacing:-.055em;margin-top:18px}
     .about-copy>p{color:var(--muted);margin-top:20px}.points{display:grid;gap:12px;margin-top:28px}
-    .point{display:flex;gap:12px;align-items:center}.point b{width:34px;height:34px;border-radius:10px;background:#fff2cf;color:#bd6800;display:grid;place-items:center;font-size:.7rem;flex:none}
+    .point{display:flex;gap:12px;align-items:center}.point b{width:34px;height:34px;border-radius:10px;background:#fff2cf;color:rgb(37, 150, 255);display:grid;place-items:center;font-size:.7rem;flex:none}
     .point span{font-size:.78rem}
     .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}
     .review{
@@ -246,8 +246,8 @@
       display:flex;gap:13px;align-items:center;padding:15px;background:#fff;border:1px solid var(--line);
       border-radius:17px;transition:.25s
     }
-    .contact-card:hover{transform:translateX(6px);border-color:rgba(255,174,0,.55);box-shadow:0 10px 25px rgba(50,35,5,.06)}
-    .cicon{width:40px;height:40px;border-radius:12px;background:#fff2cf;color:#bd6800;display:grid;place-items:center;font-size:.7rem;font-weight:900;flex:none}
+    .contact-card:hover{transform:translateX(6px);border-color:rgb(37, 150, 255);box-shadow:0 10px 25px rgba(50,35,5,.06)}
+    .cicon{width:40px;height:40px;border-radius:12px;background:#fff2cf;color:rgb(37, 150, 255);display:grid;place-items:center;font-size:.7rem;font-weight:900;flex:none}
     .contact-card small{display:block;color:var(--muted);font-size:.65rem}.contact-card strong{font-size:.8rem}
     .form{padding:29px;background:#fff;border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow)}
     .field{display:grid;gap:6px;margin-bottom:15px}.field label{font-size:.74rem;font-weight:800}
@@ -256,9 +256,9 @@
       outline:0;transition:.2s
     }
     .field textarea{min-height:125px;resize:vertical}
-    .field input:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(255,174,0,.1)}
+    .field input:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgb(37, 150, 255)}
     .form .btn{width:100%}.form-note{text-align:center;color:var(--muted);font-size:.65rem;margin-top:10px}
-    .form-status{text-align:center;font-size:.72rem;margin-top:12px;min-height:1.2em;color:#8b5a00}
+    .form-status{text-align:center;font-size:.72rem;margin-top:12px;min-height:1.2em;color:rgb(37, 150, 255)}
 
     footer.site-footer{padding:28px 0;border-top:1px solid var(--line);background:#fff}
     .footer-in{display:flex;justify-content:space-between;align-items:center;gap:20px}
@@ -279,8 +279,8 @@
     }
 
     @keyframes pulseBox{
-      0%,100%{box-shadow:0 0 0 0 rgba(255,174,0,.35),0 0 55px rgba(255,174,0,.35)}
-      50%{box-shadow:0 0 0 15px rgba(255,174,0,0),0 0 75px rgba(255,174,0,.5)}
+      0%,100%{box-shadow:0 0 0 0 rgb(37, 150, 255),0 0 55px rgb(37, 150, 255)}
+      50%{box-shadow:0 0 0 15px rgba(255,174,0,0),0 0 75px rgb(37, 150, 255)}
     }
     @keyframes orb{from{transform:translate(0,0) scale(1)}to{transform:translate(-45px,35px) scale(1.15)}}
     @keyframes float{0%,100%{transform:rotate(2deg) translateY(0)}50%{transform:rotate(1deg) translateY(-12px)}}
@@ -308,7 +308,7 @@
       .nav-links{
         position:absolute;top:100%;left:0;right:0;display:none;flex-direction:column;align-items:stretch;
         gap:3px;padding:12px;background:rgba(255,255,255,.98);border-bottom:1px solid var(--line);
-        box-shadow:0 18px 35px rgba(30,20,5,.08)
+        box-shadow:0 18px 35px rgb(37, 150, 255)
       }
       .nav-links.open{display:flex}.nav-links a{padding:13px}
       .hero{padding:65px 0;min-height:auto}.hero-grid{grid-template-columns:1fr}
@@ -339,7 +339,6 @@
         <ul class="nav-links" id="navLinks">
           <li><a href="#portfolio">Portfolio</a></li>
           <li><a href="#process">Process</a></li>
-          <li><a href="#tarifs">Tarifs</a></li>
           <li><a href="#about">À propos</a></li>
           <li><a href="#avis">Avis</a></li>
           <li><a href="#contact" class="nav-cta">Me contacter</a></li>
@@ -354,7 +353,7 @@
         <div class="hero-grid">
           <div class="hero-copy reveal">
             <span class="eyebrow"><i></i> Monteur vidéo · YouTube & Instagram</span>
-            <h1>Je monte.<br><span class="orange">Tu marques.</span><br><span class="outline">On gagne.</span></h1>
+            <h1>Tu tournes.<br><span class="orange">Je monte.</span><br><span class="outline">On gagne.</span></h1>
             <p>Salut, moi c'est Iron, un jeune monteur passionné qui est là pour t'apporter de la visibilité grâce à mon montage.</p>
             <div class="hero-actions">
               <a class="btn btn-primary" href="#portfolio">Voir le portfolio →</a>
@@ -393,15 +392,7 @@
         </div>
 
         <div class="portfolio-grid" id="portfolioGrid">
-          <article class="portfolio-card reveal" data-category="horizontal" data-embed="https://www.youtube.com/embed/aIgkgmH3NEg">
-            <div class="thumb" role="button" tabindex="0" aria-label="Ouvrir la vidéo du projet 1">
-              <span class="label">HORIZONTALE</span>
-              <img src="images/minia-anakin.png" alt="Miniature du projet horizontal" loading="lazy" onerror="this.style.display='none'">
-              <span class="play" aria-hidden="true">▶</span>
-            </div>
-            <div class="pinfo"><h3>
-              Ce jeu Roblox qui permet d'être CERTIFIER</h3><p><br> - Environ 4h de travail <br> - De nombreux retours <br> - Projet encadré par de nombreux monteurs pour les retours</p></div>
-          </article>
+          
 
           <article class="portfolio-card reveal" data-category="horizontal" data-embed="https://www.youtube.com/embed/ACeMiNFr5MM">
             <div class="thumb" role="button" tabindex="0" aria-label="Projet horizontal sans vidéo">
@@ -430,22 +421,22 @@
             <div class="pinfo"><h3>Les fibres sont très importantes</h3><p>Description courte du projet</p></div>
           </article>
 
-          <article class="portfolio-card reveal" data-category="vertical" data-embed="https://www.youtube.com/embed/IuClk167jeo">
+          <article class="portfolio-card reveal" data-category="vertical" data-embed="https://www.youtube.com/embed/nWcsoBaZ8Ps">
+            <div class="thumb vertical" role="button" tabindex="0" aria-label="Projet vertical sans vidéo">
+              <span class="label">VERTICALE</span>
+              <img src="images/im4.png" alt="Miniature du projet vertical" loading="lazy" onerror="this.style.display='none'">
+              <span class="play" aria-hidden="true">▶</span>
+            </div>
+            <div class="pinfo"><h3>Une journée type</h3><p>Description courte du projet</p></div>
+          </article>
+
+          <article class="portfolio-card reveal" data-category="motion" data-embed="https://www.youtube.com/embed/IuClk167jeo">
             <div class="thumb vertical" role="button" tabindex="0" aria-label="Projet motion design sans vidéo">
               <span class="label">MOTION DESIGN</span>
               <img src="images/im2.png" alt="Miniature du projet vertical" loading="lazy" onerror="this.style.display='none'">
               <span class="play" aria-hidden="true">▶</span>
             </div>
             <div class="pinfo"><h3>Mark Haub et les Twinkies</h3><p>Description courte du projet</p></div>
-          </article>
-
-          <article class="portfolio-card reveal" data-category="motion" data-embed="https://www.youtube.com/embed/CIzlk0MVXw0">
-            <div class="thumb" role="button" tabindex="0" aria-label="Projet motion design sans vidéo">
-              <span class="label">MOTION DESIGN</span>
-              <img src="images/minia-test.png" alt="Miniature du projet horizontal" loading="lazy" onerror="this.style.display='none'">
-            <span class="play" aria-hidden="true">▶</span>
-            </div>
-            <div class="pinfo"><h3>Test de montage ! </h3><p><br> - Environ 30 min de travail <br> - Quelques ajustements pour rendre l'intro la plus belle que possible <br> - Projet pour évaluer mon niveau</p></div>
           </article>
 
         <div class="empty" id="empty">Aucun projet dans cette catégorie pour le moment.</div>
@@ -470,46 +461,12 @@
       </div>
     </section>
 
-    <section class="section pricing" id="tarifs">
-      <div class="container">
-        <div class="heading reveal">
-          <span class="eyebrow"><i></i> Tarifs</span>
-          <h2>Les <span>offres</span></h2>
-          <p>Des formules simples à adapter selon la durée, le style et les besoins spécifiques.</p>
-        </div>
-
-        <div class="pricing-grid">
-          <article class="price-card reveal">
-            <span class="tag">Basique</span><h3>Essentiel</h3><p>Pour des vidéos simples et efficaces.</p>
-            <div class="price">50 <small>€</small></div>
-            <ul class="features"><li>Montage Simple et Efficace</li><li>Rushs ( 1h30  Max )</li><li>Effets & transitions simples </li><li>Sound design basique</li><li>2 à 3 retours</li></ul>
-            <a class="btn btn-secondary" href="#contact">Me contacter</a>
-          </article>
-
-          <article class="price-card featured reveal">
-            <span class="tag">Populaire</span><h3>Formats Courts</h3><p>Pour vos formats courts pour Insta, Tiktok, Short.</p>
-            <div class="price">250 <small>€</small></div>
-            <ul class="features"><li>Pack 10 Réels ( 25€ / Réels ) </li><li>Montage vertical ( 2 min Max )</li><li>Sous-titres / rythme</li><li>Montage dynamique</li><li>1 à 2 retours</li></ul>
-            <a class="btn btn-primary" href="#contact">Me contacter</a>
-          </article>
-          
-          <article class="price-card reveal">
-            <span class="tag">Premium</span><h3>Sur mesure</h3><p>Pour un rendu haut de gamme sur devis.</p>
-            <div class="price">+ 100 <small>€</small></div>
-            <ul class="features"><li>Montage poussé</li><li>Effets avancés</li><li>Sound design poussé</li><li>Retours selon devis*</li></ul>
-            <a class="btn btn-secondary" href="#contact">Me contacter</a>
-          </article>
-        </div>
-
-        <p class="disclaimer">⚠ Tarifs approximatifs <br> <br>Les tarifs affichés sur ce site sont donnés à titre indicatif. <br> Chaque projet est unique : le prix peut varier selon le style de montage, </br> la durée, la complexité, les effets demandés, le temps de travail nécessaire et vos besoins spécifiques.</p>
-      </div>
-    </section>
 
     <section class="section" id="about">
       <div class="container">
         <div class="about-grid">
-          <div class="about-visual reveal">
-            <div class="about-placeholder"><div><strong><img src="images/PDP I.png"></strong><br></div></div>
+          <div class="about-visual reveal" >
+            <img src="images/pdp iron2.0.png">
           </div>
 
           <div class="about-copy reveal">
@@ -530,14 +487,13 @@
       <div class="container">
         <div class="heading reveal">
           <span class="eyebrow"><i></i> Avis clients</span>
-          <h2>Vos <span>retours</span></h2>
+          <h2>Retours <span>Clients</span></h2>
           <p>Aucun faux témoignage : cette section est prête à recevoir les retours de vrais clients.</p>
         </div>
 
         <div class="reviews-grid">
           <article class="review reveal"><p>Emplacement pour un véritable avis client.</p><footer>Client / créateur — à renseigner</footer></article>
-          <article class="review reveal"><p>Emplacement pour un véritable avis client.</p><footer>Client / créateur — à renseigner</footer></article>
-          <article class="review reveal"><p>Emplacement pour un véritable avis client.</p><footer>Client / créateur — à renseigner</footer></article>
+
         </div>
       </div>
     </section>
