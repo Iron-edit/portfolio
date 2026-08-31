@@ -323,6 +323,108 @@
       .hero-actions{flex-direction:column}.hero-actions .btn{width:100%}
       .stats,.process-grid{grid-template-columns:1fr}.tag1{left:0}.tag2{right:0}
     }
+
+    .short-video{
+  display:flex;
+  justify-content:center;
+  margin:0 auto;
+}
+
+.short-video-wrapper{
+  width:min(330px, 80vw);
+  aspect-ratio:9/16;
+  background:#080706;
+  border-radius:28px;
+  overflow:hidden;
+  box-shadow:0 30px 90px rgba(43,31,8,.2);
+  border:1px solid var(--line);
+  transition:.3s ease;
+}
+
+.short-video-wrapper:hover{
+  transform:translateY(-6px);
+  box-shadow:0 35px 90px rgba(38,0,255,.2);
+}
+
+.short-video-wrapper video{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+}
+
+.review{
+  min-height:auto;
+  padding:18px;
+  border:1px dashed #d6cebf;
+  border-radius:22px;
+  background:var(--bg);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  transition:.3s;
+}
+
+.review{
+  min-height:auto;
+  padding:18px;
+  border:1px dashed #d6cebf;
+  border-radius:22px;
+  background:var(--bg);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  transition:.3s;
+}
+
+.review:hover{
+  transform:translateY(-6px);
+  border-color:var(--accent);
+}
+
+.short-video{
+  width:100%;
+  display:flex;
+  justify-content:center;
+}
+
+.short-video video{
+  width:min(280px,100%);
+  aspect-ratio:9/16;
+  height:auto;
+  display:block;
+  object-fit:cover;
+  border-radius:16px;
+  background:#080706;
+}
+
+.client-info{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:3px;
+  margin-top:14px;
+  text-align:center;
+}
+
+.client-info strong{
+  font-size:.82rem;
+  color:var(--ink);
+}
+
+.client-info a{
+  font-size:.72rem;
+  font-weight:700;
+  color:var(--accent-2);
+  transition:.2s ease;
+}
+
+.client-info a:hover{
+  opacity:.7;
+}
+
+
+
   </style>
 </head>
 
@@ -354,12 +456,12 @@
           <div class="hero-copy reveal">
             <span class="eyebrow"><i></i> Monteur vidéo · YouTube & Instagram</span>
             <h1>Tu tournes.<br><span class="orange">Je monte.</span><br><span class="outline">On gagne.</span></h1>
-            <p>Salut, moi c'est Iron, un jeune monteur passionné qui est là pour t'apporter de la visibilité grâce à mon montage.</p>
+            <p>Salut, moi c'est Naël, un jeune monteur passionné qui est là pour t'apporter de la visibilité grâce à mon montage.</p>
             <div class="hero-actions">
               <a class="btn btn-primary" href="#portfolio">Voir le portfolio →</a>
               <a class="btn btn-secondary" href="#contact">Me contacter ↗</a>
             </div>
-            <p class="hero-note">Portfolio en construction — les réalisations seront ajoutées ici prochainement.</p>
+            <p class="hero-note">Portfolio en construction — de nombreuses réalisations seront ajoutées ici prochainement.</p>
           </div>
 
           <div class="hero-art reveal">
@@ -368,10 +470,10 @@
         </div>
 
         <div class="stats reveal" aria-label="Statistiques">
-          <div class="stat"><strong>10+</strong><small>Projets réalisés · à confirmer</small></div>
-          <div class="stat"><strong>2</strong><small>Années d'expérience · à confirmer</small></div>
-          <div class="stat"><strong>5</strong><small>Clients satisfaits · à confirmer</small></div>
-          <div class="stat"><strong>30+</strong><small>Vidéos montées · à confirmer</small></div>
+          <div class="stat"><strong>10+</strong><small>Projets réalisés · </small></div>
+          <div class="stat"><strong>2</strong><small>Années d'expérience · </small></div>
+          <div class="stat"><strong>5</strong><small>Clients satisfaits · </small></div>
+          <div class="stat"><strong>30+</strong><small>Vidéos montées · </small></div>
         </div>
       </div>
     </section>
@@ -409,7 +511,7 @@
               <img src="images/im1.png" alt="Miniature du projet vertical" loading="lazy" onerror="this.style.display='none'">
               <span class="play" aria-hidden="true">▶</span>
             </div>
-            <div class="pinfo"><h3>Séance Type pour débutant</h3><p>Description courte du projet</p></div>
+            <div class="pinfo"><h3>Séance Type pour débutant</h3><p><br> - Vidéo avec un peu de motion design et des vidéos d'exercices sportifs à placer <br> - Environ 1h de travail <br> - Quelques retours sur certains exercices modifiés très rapidement </p></div>
           </article>
 
           <article class="portfolio-card reveal" data-category="vertical" data-embed="https://www.youtube.com/embed/PQCqR0P_1iE">
@@ -418,7 +520,7 @@
               <img src="images/im3.png" alt="Miniature du projet vertical" loading="lazy" onerror="this.style.display='none'">
               <span class="play" aria-hidden="true">▶</span>
             </div>
-            <div class="pinfo"><h3>Les fibres sont très importantes</h3><p>Description courte du projet</p></div>
+            <div class="pinfo"><h3>Les fibres sont très importantes</h3><p><br> - Vidéo avec un peu motion design et des images à apporter <br> - Environ 1h de travail <br> - Un retour sur un mot spécifique </p></div>
           </article>
 
           <article class="portfolio-card reveal" data-category="vertical" data-embed="https://www.youtube.com/embed/nWcsoBaZ8Ps">
@@ -427,7 +529,7 @@
               <img src="images/im4.png" alt="Miniature du projet vertical" loading="lazy" onerror="this.style.display='none'">
               <span class="play" aria-hidden="true">▶</span>
             </div>
-            <div class="pinfo"><h3>Une journée type</h3><p>Description courte du projet</p></div>
+            <div class="pinfo"><h3>Une journée type</h3><p><br> - Vidéo avec des images à apporter à partir d'un modèle<br> - Environ 45 min de travail <br> - Aucun retour </p></div>
           </article>
 
           <article class="portfolio-card reveal" data-category="motion" data-embed="https://www.youtube.com/embed/IuClk167jeo">
@@ -436,7 +538,7 @@
               <img src="images/im2.png" alt="Miniature du projet vertical" loading="lazy" onerror="this.style.display='none'">
               <span class="play" aria-hidden="true">▶</span>
             </div>
-            <div class="pinfo"><h3>Mark Haub et les Twinkies</h3><p>Description courte du projet</p></div>
+            <div class="pinfo"><h3>Mark Haub et les Twinkies</h3><p><br> - Vidéo avec du motion design <br> - Environ 1h30 de travail <br> - Aucun retour </p></div>
           </article>
 
         <div class="empty" id="empty">Aucun projet dans cette catégorie pour le moment.</div>
@@ -483,20 +585,41 @@
       </div>
     </section>
 
+
     <section class="section reviews" id="avis">
       <div class="container">
         <div class="heading reveal">
-          <span class="eyebrow"><i></i> Avis clients</span>
+          <span class="eyebrow"><i></i> TémoignageS </span>
           <h2>Retours <span>Clients</span></h2>
-          <p>Aucun faux témoignage : cette section est prête à recevoir les retours de vrais clients.</p>
+          <p>Découvrez directement un aperçu de mon travail en vidéo.</p>
         </div>
-
+    
         <div class="reviews-grid">
-          <article class="review reveal"><p>Emplacement pour un véritable avis client.</p><footer>Client / créateur — à renseigner</footer></article>
-
+          <article class="review reveal">
+    
+            <div class="short-video">
+              <video controls playsinline preload="metadata">
+                <source src="images/temoignage loup.mp4" type="video/mp4">
+                Ton navigateur ne prend pas en charge la lecture vidéo.
+              </video>
+            </div>
+    
+            <div class="client-info">
+              <strong>LOUP COACH</strong>
+              <a href="https://www.instagram.com/loup.coach/?hl=en"
+                 target="_blank"
+                 rel="noopener noreferrer">
+                @loup.coach ↗
+              </a>
+            </div>
+    
+          </article>
         </div>
       </div>
     </section>
+    
+    
+    
 
     <section class="section" id="contact">
       <div class="container">
